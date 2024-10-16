@@ -1,20 +1,9 @@
+package ru.netology.radio;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.netology.Radio;
 
 public class RadioTest {
-
-    @Test
-    public void shouldSetAnyStation() {
-        Radio radio = new Radio(18);
-
-        radio.setCurrentStation(15);
-
-        int expected = 15;
-        int actual = radio.getCurrentStation();
-
-        Assertions.assertEquals(expected, actual);
-    }
 
     @Test
     public void shouldSetStation() {
@@ -29,10 +18,22 @@ public class RadioTest {
     }
 
     @Test
-    public void shouldNotSetStationAboveMax() {
-        Radio radio = new Radio(10);
+    public void shouldSetAnyStation() {
+        Radio radio = new Radio(30);
 
-        radio.setCurrentStation(10);
+        radio.setCurrentStation(20);
+
+        int expected = 20;
+        int actual = radio.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldNotSetStationAboveMax() {
+        Radio radio = new Radio(30);
+
+        radio.setCurrentStation(30);
 
         int expected = 0;
         int actual = radio.getCurrentStation();
@@ -103,9 +104,9 @@ public class RadioTest {
 
     @Test
     public void shouldReturnToStartIfAboveMax() {
-        Radio radio = new Radio();
+        Radio radio = new Radio(50);
 
-        radio.setCurrentStation(9);
+        radio.setCurrentStation(radio.getMaxStation());
         radio.nextStation();
 
         int expected = 0;
@@ -129,12 +130,12 @@ public class RadioTest {
 
     @Test
     public void shouldGoToEndIfBelowMin() {
-        Radio radio = new Radio();
+        Radio radio = new Radio(40);
 
-        radio.setCurrentStation(0);
+        radio.setCurrentStation(radio.getMinStation());
         radio.prevStation();
 
-        int expected = 9;
+        int expected = 39;
         int actual = radio.getCurrentStation();
 
         Assertions.assertEquals(expected, actual);
@@ -157,7 +158,7 @@ public class RadioTest {
     public void shouldNotGoAboveMax() {
         Radio radio = new Radio();
 
-        radio.setCurrentVolume(100);
+        radio.setCurrentVolume(radio.getMaxVolume());
         radio.increaseVolume();
 
         int expected = 100;
@@ -183,7 +184,7 @@ public class RadioTest {
     public void shouldNotGoBolowMin() {
         Radio radio = new Radio();
 
-        radio.setCurrentVolume(0);
+        radio.setCurrentVolume(radio.getMinVolume());
         radio.decreaseVolume();
 
         int expected = 0;
